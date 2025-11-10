@@ -1,11 +1,8 @@
-from services.visual_services.image_caption import ImageCaptionService
-from services.visual_services.depth_map import DepthMapService
+from services.external_service import ExternalService
+from config.config import SERVICE_CONFIG
 
 service_registry = {
-    s.name: s for s in [
-        ImageCaptionService(),
-        DepthMapService(),
-    ]
+    name: ExternalService(name,conf["url"]) for name,conf in SERVICE_CONFIG.items()
 }
 
 def get_service(name: str):
