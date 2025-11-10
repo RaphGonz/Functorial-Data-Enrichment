@@ -1,0 +1,79 @@
+# --- Environnements Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.log
+*.sqlite3
+
+# --- Environnements virtuels ---
+.venv/
+venv/
+env/
+ENV/
+.conda/
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+
+# --- Fichiers de configuration utilisateur ---
+.vscode/
+.idea/
+*.code-workspace
+
+# --- Fichiers temporaires ---
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+# --- Caches Python / FastAPI / Uvicorn ---
+.cache/
+pytest_cache/
+.pytest_cache/
+__pypackages__/
+.coverage
+htmlcov/
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# --- Tests et données temporaires ---
+test_output/
+tests/__pycache__/
+*.coverage
+logs/
+*.out
+
+# --- Documentation générée ---
+docs/_build/
+site/
+
+# --- Notebooks (si tu en utilises) ---
+.ipynb_checkpoints/
+
+# --- Fichiers système Windows ---
+ehthumbs.db
+Desktop.ini
+
+# --- Clés ou secrets (exemple) ---
+.env
+*.env
+secrets.json
+
+# --- Export / modèles volumineux ---
+data/
+outputs/
+models/
+weights/
+checkpoints/
+
+# --- Docker ---
+docker-compose.override.yml
+.dockerignore
