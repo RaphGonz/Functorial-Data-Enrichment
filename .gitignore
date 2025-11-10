@@ -19,6 +19,7 @@ dist/
 build/
 
 # --- Fichiers de configuration utilisateur ---
+.vs/
 .vscode/
 .idea/
 *.code-workspace
