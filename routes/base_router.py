@@ -2,6 +2,8 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List, Any
 
+from services.registry import get_service
+
 # ---- Schémas simples d'entrée et de sortie ----
 class EnrichRequest(BaseModel):
     modality: str
@@ -24,12 +26,12 @@ class RaffinerieRouter:
         @self.router.post("/enrich", response_model=EnrichResponse)
         def enrich_endpoint(req: EnrichRequest):
             # Simulation : à terme, appelera le service réel d’enrichissement
-            fake_result = {
-                "modality": req.modality,
-                "operations": req.operations,
-                "summary": f"{len(req.operations)} opérations appliquées"
-            }
-            return {"status": "ok", "result": fake_result}
+            result = {}
+            for op in req.operations:
+                service = get_service(op)
+                result[op] = service.run("fichier_image.png")
+
+            return {"status": "ok", "result": result}
 
         # Route de test /ping
         @self.router.get("/ping")
