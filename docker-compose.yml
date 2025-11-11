@@ -3,17 +3,20 @@ version: "3"
 services:
   raffinerie:
     build: .
-    container_name: ${RAFFINERIE_CONTAINER_NAME}
     ports:
       - "${PORT_RAFFINERIE}:${PORT_RAFFINERIE}"
     depends_on:
       - depth
+    env_file:
+      - .env
 
   depth:
     build:
-      context: ./services/visual_services/depth
+      context: .
+      dockerfile: ./services/visual_services/depth/Dockerfile
       args:
         INTERNAL_PORT: ${PORT_DEPTH}
-    container_name: ${RAFFINERIE_CONTAINER_NAME}
     ports:
       - "${PORT_DEPTH}:8080"
+    env_file:
+      - .env
