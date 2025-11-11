@@ -1,5 +1,3 @@
 services:
   depth:
-    url: "http://depth:8080/run"
-  caption:
-    url: "http://caption:8080/run"
+    url: "http://${DEPTH_CONTAINER_NAME}:${PORT_DEPTH}/run"
