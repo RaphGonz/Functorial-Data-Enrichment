@@ -1,0 +1,136 @@
+{
+  "id": "unique_identifier",
+  "type": "image / text",
+  "source_file": "path/to/file.ext",
+
+  "semantic": {
+    "language": "fr",
+    "translation": {
+      "available": true,
+      "languages": ["en", "es", "jp"]
+    },
+    "summary": "Texte court résumant le contenu",
+    "topic_classification": ["travail", "société"],
+    "key_entities": {
+      "persons": ["Escu", "Devy"],
+      "objects": ["vaisseau", "bazooka"],
+      "locations": ["hangar", "Grasse"]
+    },
+    "emotions": ["nostalgie", "colère"],
+    "sentiment_score": [0.74,0.3],
+    "keywords": ["mécanicien", "peur", "courage"],
+    "narrative_type": "dialogue / description / action",
+    "style": "humoristique / réaliste / introspectif"
+  },
+
+  "visual": {
+    "depth_map": {
+      "path": "path/to/depth_map.png",
+      "confidence": 0.93,
+      "method": "stereo_inference"
+    },
+    "normal_map": {
+      "path": "path/to/normal_map.png",
+      "confidence": 0.90,
+      "method": "gradient_estimation"
+    },
+    "pose_detection": {
+      "skeleton_path": "path/to/pose.json",
+      "detected": true
+    },
+    "object_detection": [
+      {
+        "id": "obj_001",
+        "label": "vaisseau",
+        "bbox": [100, 200, 300, 400],
+        "size_estimation": {
+          "relative_scale": 1.0,
+          "absolute_size_m": 15.2,
+          "confidence": 0.68
+        },
+        "material_estimation": {
+          "metal": 0.7,
+          "peinture": 0.2,
+          "verre": 0.1
+        }
+      },
+      {
+        "id": "obj_002",
+        "label": "personnage",
+        "bbox": [420, 180, 520, 380],
+        "size_estimation": {
+          "relative_scale": 0.12,
+          "absolute_size_m": 1.8,
+          "confidence": 0.9
+        },
+        "material_estimation": {
+          "tissu": 0.6,
+          "peau": 0.3,
+          "plastique": 0.1
+        }
+      }
+    ],
+    "focal": {
+      "estimated_mm": 35.0,
+      "confidence": 0.82,
+      "method": "vanishing_point_estimation"
+    },
+    "vanishing_points": [
+      {"x": 2200.4, "y": -800.1, "confidence": 0.78},
+      {"x": -150.2, "y": 980.5, "confidence": 0.73}
+    ],
+    "lights": [
+      {
+        "id": "light_1",
+        "position": [1.2, 3.5, -2.8],
+        "orientation": [0.0, -0.8, 0.3],
+        "color": [255, 240, 200],
+        "intensity": 0.85,
+        "confidence": 0.7,
+        "method": "photometric_inference"
+      },
+      {
+        "id": "light_2",
+        "position": [-4.0, 2.0, 0.5],
+        "orientation": [0.1, -0.2, 0.0],
+        "color": [180, 200, 255],
+        "intensity": 0.6,
+        "confidence": 0.65,
+        "method": "shadow_direction_analysis"
+      }
+    ],
+    "dominant_colors": ["#AABBCC", "#221133", "#FFEEDD"],
+    "pointcloud_3d": {
+      "path": "path/to/pointcloud.ply",
+      "confidence": 0.88,
+      "method": "depth_fusion"
+    }
+  },
+
+  "links": {
+    "related_texts": ["uuid_text_1", "uuid_text_2"],
+    "related_images": ["uuid_img_1"],
+    "generated_from": "uuid_source_text_or_image"
+  },
+
+  "metadata": {
+    "creation_date": "2025-11-12T19:00:00Z",
+    "author": "unknown",
+    "confidence_scores": {
+      "semantic": 0.92,
+      "visual": 0.88
+    },
+    "processing_history": [
+      {
+        "service": "semantic_summary",
+        "status": "done",
+        "timestamp": "2025-11-12T19:10:00Z"
+      },
+      {
+        "service": "depth_map_generator",
+        "status": "done",
+        "timestamp": "2025-11-12T19:12:00Z"
+      }
+    ]
+  }
+}
