@@ -9,6 +9,8 @@ services:
       - depth
     env_file:
       - .env
+    volumes:
+      - ./shared:/shared
 
   depth:
     build:
@@ -20,3 +22,5 @@ services:
       - "${PORT_DEPTH}:8080"
     env_file:
       - .env
+    volumes:
+      - ./shared:/shared

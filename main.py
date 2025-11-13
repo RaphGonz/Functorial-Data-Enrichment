@@ -16,15 +16,6 @@ api_router = RaffinerieRouter()
 # Enregistrement du routeur sous le préfixe /api/v1
 app.include_router(api_router.get_router(), prefix="/api/v1")
 
-class InferenceRequest(BaseModel):
-    image_path: str
-
-@app.post("/run")
-def run_model(req: InferenceRequest):
-    # Exemple : appel du modèle local
-    result = {"message": f"Traitement sur {req.image_path}"}
-    return result
-
 @app.get("/")
 def root():
     return {"message": "Raffinerie API en ligne"}

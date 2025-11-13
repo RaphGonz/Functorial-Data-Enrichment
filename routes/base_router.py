@@ -6,7 +6,7 @@ from services.registry import get_service
 
 # ---- Schémas simples d'entrée et de sortie ----
 class EnrichRequest(BaseModel):
-    modality: str
+    input_path: str
     operations: List[str]
 
 class EnrichResponse(BaseModel):
@@ -29,7 +29,7 @@ class RaffinerieRouter:
             result = {}
             for op in req.operations:
                 service = get_service(op)
-                result[op] = service.run("fichier_image.png")
+                result[op] = service.run(req.input_path,outdir="/shared/output")
 
             return {"status": "ok", "result": result}
 

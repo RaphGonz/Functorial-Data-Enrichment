@@ -6,11 +6,12 @@ class ExternalService(BaseService):
         self.name = name
         self.url = url
 
-    def run(self, image_path: str):
-        
-        payload = {"image_path": image_path}
+    def run(self, input_path: str, outdir: str = "output", extra: dict | None = None):
+        payload = {
+            "input_path": input_path,
+            "outdir": outdir,
+            "extra": extra,
+        }
         r = requests.post(self.url, json=payload, timeout=60)
         r.raise_for_status()
         return r.json()
-        
-        #return {f"{self.name}": f"L'image {image_path} est une photo de chat"}
