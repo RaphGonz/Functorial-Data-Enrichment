@@ -2,5 +2,6 @@ fastapi
 uvicorn
 pydantic
 requests
+aiohttp
 python-multipart
 PyYAML

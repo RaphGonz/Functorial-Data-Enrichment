@@ -10,3 +10,8 @@ class BaseService(ABC):
     def run(self, *args, **kwargs):
         """Méthode principale appelée par le routeur."""
         pass
+
+    @abstractmethod
+    async def arun(self, *args, **kwargs):
+        """Méthode principale ASYNCHRONE."""
+        pass

@@ -7,6 +7,7 @@ from services.registry import get_service
 # ---- Schémas simples d'entrée et de sortie ----
 class EnrichRequest(BaseModel):
     input_path: str
+    outdir: str
     operations: List[str]
 
 class EnrichResponse(BaseModel):
@@ -29,7 +30,7 @@ class RaffinerieRouter:
             result = {}
             for op in req.operations:
                 service = get_service(op)
-                result[op] = service.run(req.input_path,outdir="/shared/output")
+                result[op] = service.run(req.input_path,outdir=req.outdir)
 
             return {"status": "ok", "result": result}
 
