@@ -14,23 +14,23 @@ class KeyEntities(BaseModel):
     locations: Optional[List[str]]
 
 class Semantic(BaseModel):
-    language: Optional[str]
-    translation: Optional[Translation]
-    summary: Optional[str]
-    topic_classification: Optional[List[str]]
-    key_entities: Optional[KeyEntities]
-    emotions: Optional[List[str]]
-    sentiment_score: Optional[List[float]]
-    keywords: Optional[List[str]]
-    narrative_type: Optional[str]
-    style: Optional[str]
+    language: Optional[str] = None
+    translation: Optional[Translation] = None
+    summary: Optional[str] = None
+    topic_classification: Optional[List[str]] = None
+    key_entities: Optional[KeyEntities] = None
+    emotions: Optional[List[str]] = None
+    sentiment_score: Optional[List[float]] = None
+    keywords: Optional[List[str]] = None
+    narrative_type: Optional[str] = None
+    style: Optional[str] = None
 
 
 # --- VISUAL -----------------------------------------------------------------
 
 class DepthNormalMap(BaseModel):
     path: Optional[str]
-    confidence: Optional[float]
+    confidence: Optional[float] 
     method: Optional[str]
 
 class PoseDetection(BaseModel):
@@ -77,15 +77,15 @@ class Light(BaseModel):
     method: str
 
 class Visual(BaseModel):
-    depth_map: Optional[DepthNormalMap]
-    normal_map: Optional[DepthNormalMap]
-    pose_detection: Optional[PoseDetection]
-    object_detection: Optional[List[ObjectDetection]]
-    focal: Optional[Focal]
-    vanishing_points: Optional[List[VanishingPoint]]
-    lights: Optional[List[Light]]
-    dominant_colors: Optional[List[str]]
-    pointcloud_3d: Optional[DepthNormalMap]
+    depth_map: Optional[DepthNormalMap] = None
+    normal_map: Optional[DepthNormalMap] = None
+    pose_detection: Optional[PoseDetection] = None
+    object_detection: Optional[List[ObjectDetection]] = None
+    focal: Optional[Focal] = None
+    vanishing_points: Optional[List[VanishingPoint]] = None
+    lights: Optional[List[Light]] = None
+    dominant_colors: Optional[List[str]] = None
+    pointcloud_3d: Optional[DepthNormalMap] = None
 
 
 # --- LINKS ------------------------------------------------------------------
@@ -112,7 +112,7 @@ class EnrichedData(BaseModel):
     type: Literal["image", "text", "mixed", "image / text"]
     source_file: str
 
-    semantic: Optional[Semantic]
-    visual: Optional[Visual]
-    links: Optional[Links]
-    metadata: Optional[Metadata]
+    semantic: Optional[Semantic] = None
+    visual: Optional[Visual] = None
+    links: Optional[Links] = None
+    metadata: Optional[Metadata] = None

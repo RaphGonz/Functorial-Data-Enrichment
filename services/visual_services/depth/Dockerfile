@@ -30,6 +30,7 @@ RUN mkdir -p checkpoints && \
 
 # --- Copy the API wrapper ---
 COPY ./services/docker_api_server.py /app/repo/docker_api_server.py
+COPY ./services/mapping.py /app/repo/services/mapping.py
 COPY ./services/visual_services/depth/api_server.py /app/repo/api_server.py
 
 EXPOSE 8080

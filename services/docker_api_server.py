@@ -47,7 +47,9 @@ def create_service_app(name, command_builder):
         if loader_type == "binary_path":
             return file_path.replace("\\", "/")
         if loader_type == "pose":
-            # cas spécial : pose_detection
+            # cas spécial : pose_detection, voir mapping.py, template.json ou enriched_data.py
+            #en gros : seul enrichissement d'image où un booléen est nécessaire
+            # on vérifie si il y a un humain de detecté ou pas
             return {
                 "skeleton_path": file_path.replace("\\", "/"),
                 "detected": True
@@ -99,6 +101,49 @@ def create_service_app(name, command_builder):
 
         cursor[enriched_path[-1]] = value
         return root
+    
+    def build_output_dict(service_name, outdir):
+        """
+        Construit un dict simple basé sur SERVICE_MAPPING,
+        sans structure de fragment EnrichedData.
+        """
+        spec = SERVICE_MAPPING.get(service_name)
+        if not spec:
+            return {"error": f"Unknown service '{service_name}'"}
+
+        loader_type = spec["json_loader"]
+        files = spec["files"]
+        enriched_path = spec["enriched_path"]      # ex: ["visual", "depth_map"]
+        method = spec["method"]
+
+        # Charger les données
+        if len(files) == 1:
+            file_path = os.path.join(outdir, files[0])
+            value = load_output(loader_type, file_path)
+        else:
+            value = {}
+            for f in files:
+                fp = os.path.join(outdir, f)
+                value[f] = load_output(loader_type, fp)
+
+        # Ajouter "method" si binary_path
+        if loader_type == "binary_path":
+            value = {
+                "path": value,
+                "confidence": None,
+                "method": method
+            }
+
+        # Construction d'un simple dict json basé sur enriched_path
+        # Ex: ["visual", "depth_map"] → {"visual": {"depth_map": value}}
+        root_key = enriched_path[0]
+        sub_key = enriched_path[1]
+
+        return {
+            root_key: {
+            sub_key: value
+            }
+        }
 
     # ---------------------------------------------------------
     # ENDPOINT /run
@@ -113,7 +158,7 @@ def create_service_app(name, command_builder):
             return {"error": result.stderr.strip()}
 
         # construit le JSON partiel attendu par l’orchestrateur
-        fragment = build_fragment(name, req.outdir)
+        fragment = build_output_dict(name, req.outdir)
         return fragment
 
     return app

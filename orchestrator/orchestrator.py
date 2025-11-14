@@ -2,8 +2,18 @@ import os
 import json
 import asyncio
 from typing import List
-from enriched_data import EnrichedData
+from orchestrator.enriched_data import EnrichedData, Semantic, Visual, Links, Metadata
 from services.registry import get_service
+
+def merge_dicts(a, b):
+    for key, val in b.items():
+        if key in a and isinstance(a[key], dict) and isinstance(val, dict):
+            merge_dicts(a[key], val)
+        else:
+            a[key] = val
+    return a
+
+
 
 
 class Orchestrator:
@@ -28,7 +38,7 @@ class Orchestrator:
         """
         service = get_service(op)
         partial_json = await service.arun(source_path, outdir)
-        return EnrichedData(**partial_json)
+        return partial_json
 
     async def _process_one(self, source_path: str) -> EnrichedData:
         """
@@ -43,17 +53,9 @@ class Orchestrator:
 
         type_guess = "image" if ext.lower() in [".png", ".jpg", ".jpeg"] else "text"
 
-        enriched = EnrichedData(
-            id=name,
-            type=type_guess,
-            source_file=os.path.relpath(source_path, self.processed_dir),
-            semantic=None,
-            visual=None,
-            links=None,
-            metadata=None
-        )
+        merged = {} #le futur EnrichedData
 
-        tasks = []
+        tasks = [] #liste des json partiels à fusionner
         for op in self.operations:
             op_dir = os.path.join(item_dir, op)
             os.makedirs(op_dir, exist_ok=True)
@@ -62,22 +64,18 @@ class Orchestrator:
         results = await asyncio.gather(*tasks)
 
         for frag in results:
-            if frag.semantic:
-                enriched.semantic = frag.semantic
-            if frag.visual:
-                enriched.visual = frag.visual
-            if frag.links:
-                enriched.links = frag.links
-            if frag.metadata:
-                enriched.metadata = frag.metadata
+            if isinstance(frag, dict):
+                merge_dicts(merged, frag)
 
-        return enriched
+        merged["id"] = name
+        merged["type"] = type_guess
+        merged["source_file"] = os.path.relpath(source_path, self.processed_dir)
+
+        return EnrichedData(**merged)
+
+   
 
     async def run(self):
-        """
-        Parcourt tous les fichiers de /raw, traite chacun en parallèle,
-        produit un manifest.json avec la liste complète des EnrichedData.
-        """
         files = [
             os.path.join(self.raw_dir, f)
             for f in os.listdir(self.raw_dir)
@@ -88,4 +86,4 @@ class Orchestrator:
 
         manifest_path = os.path.join(self.processed_dir, "manifest.json")
         with open(manifest_path, "w", encoding="utf-8") as f:
-            json.dump([r.dict() for r in results], f, indent=2)
+            json.dump([r.model_dump() for r in results], f, indent=2)
