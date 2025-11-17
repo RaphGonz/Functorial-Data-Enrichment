@@ -109,7 +109,6 @@ class Metadata(BaseModel):
 
 class EnrichedData(BaseModel):
     id: str
-    type: Literal["image", "text", "mixed", "image / text"]
     source_file: str
 
     semantic: Optional[Semantic] = None

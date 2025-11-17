@@ -3,6 +3,7 @@ import yaml
 from string import Template
 from services.external_service import ExternalService
 
+#is used to load services.yml and create service instances and tell where they are located
 CONFIG_PATH = "./config/services.yml"
 
 

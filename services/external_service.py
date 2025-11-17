@@ -2,6 +2,8 @@ import requests
 import aiohttp
 from services.base_service import BaseService
 
+#transforms a service call into an external HTTP request to the service URL
+
 class ExternalService(BaseService):
     def __init__(self, name: str, url: str):
         self.name = name

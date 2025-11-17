@@ -1,3 +1,5 @@
+#gives the mapping between service names and their file outputs and enriched data paths
+
 SERVICE_MAPPING = {
     # -----------------------------
     # VISUAL

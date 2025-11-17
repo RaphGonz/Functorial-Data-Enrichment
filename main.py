@@ -17,17 +17,42 @@ app = FastAPI(
 class OrchestratorRequest(BaseModel):
     raw_dir: str
     processed_dir: str
-    operations: list[str]
+    visual_operations: list[str]
+    semantic_operations: list[str]
 
-@app.post("/test-orchestrator")
-async def test_orchestrator(req: OrchestratorRequest):
+@app.post("/test-orchestrator-image-only")
+async def test_orchestrator_image_only(req: OrchestratorRequest):
     orch = Orchestrator(
         raw_dir=req.raw_dir,
         processed_dir=req.processed_dir,
-        operations=req.operations
+        visual_operations=req.visual_operations ,
+        semantic_operations=req.semantic_operations
     )
-    await orch.run()
+    await orch.run(pipeline_type="image_only")
     return {"status": "ok", "processed_dir": req.processed_dir}
+
+@app.post("/test-orchestrator-image-text")
+async def test_orchestrator_image_text(req: OrchestratorRequest):
+    orch = Orchestrator(
+        raw_dir=req.raw_dir,
+        processed_dir=req.processed_dir,
+        visual_operations=req.visual_operations ,
+        semantic_operations=req.semantic_operations
+    )
+    await orch.run(pipeline_type="image_text")
+    return {"status": "ok", "processed_dir": req.processed_dir}
+
+@app.post("/test-orchestrator-text-only")
+async def test_orchestrator_text_only(req: OrchestratorRequest):
+    orch = Orchestrator(
+        raw_dir=req.raw_dir,
+        processed_dir=req.processed_dir,
+        visual_operations=req.visual_operations ,
+        semantic_operations=req.semantic_operations
+    )
+    await orch.run(pipeline_type="text_only")
+    return {"status": "ok", "processed_dir": req.processed_dir}
+
 # ---- FIN AJOUT ----
 
 # Création du routeur principal
