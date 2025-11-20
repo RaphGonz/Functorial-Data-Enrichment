@@ -2,7 +2,7 @@
 from pydantic import BaseModel
 from typing import List
 
-
+#structure describing the needs and outputs of a service
 class ServiceSpec(BaseModel):
     name: str
     fills: List[str]

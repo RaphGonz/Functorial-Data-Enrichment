@@ -110,6 +110,8 @@ class Metadata(BaseModel):
 class EnrichedData(BaseModel):
     id: str
     source_file: str
+    # NEW: texte brut fourni par l’utilisateur (manifest.json ou .txt)
+    text: Optional[str] = None
 
     semantic: Optional[Semantic] = None
     visual: Optional[Visual] = None

@@ -38,17 +38,22 @@ class Orchestrator:
     # ---------------------------------------------------------
     def _load_raw(self) -> List[State]:
         states = []
-
+        manifest_path = None
         for filename in os.listdir(self.raw_dir):
             fpath = os.path.join(self.raw_dir, filename)
             if not os.path.isfile(fpath):
                 continue
 
             name, ext = os.path.splitext(filename)
-            item_dir = os.path.join(self.processed_dir, name)
-            os.makedirs(item_dir, exist_ok=True)
+            
+
+            if filename == "manifest.json":
+                manifest_path = fpath
+                continue
 
             if ext.lower() in [".png", ".jpg", ".jpeg", ".bmp"]:
+                item_dir = os.path.join(self.processed_dir, name)
+                os.makedirs(item_dir, exist_ok=True)
                 states.append(
                     State(
                         id=name,
@@ -61,6 +66,8 @@ class Orchestrator:
             elif ext.lower() in [".txt"]:
                 with open(fpath, "r", encoding="utf-8") as f:
                     txt = f.read().strip()
+                item_dir = os.path.join(self.processed_dir, name)
+                os.makedirs(item_dir, exist_ok=True)
                 states.append(
                     State(
                         id=name,
@@ -70,38 +77,39 @@ class Orchestrator:
                         fields_ready={"semantic.summary": False}
                     )
                 )
-            elif filename == "manifest.json":
-                with open(fpath, "r", encoding="utf-8") as f:
-                    manifest = json.load(f)
+        if manifest_path:
+            # chargement du manifest pour compléter/ajouter des States 
+            with open(manifest_path, "r", encoding="utf-8") as f:
+                manifest = json.load(f)
 
-                # dictionnaire temporaire pour retrouver les States par image_path
-                state_by_path = {s.image_path: s for s in states if s.image_path}
+            # dictionnaire temporaire pour retrouver les States par image_path
+            state_by_path = {s.image_path: s for s in states if s.image_path}
 
-                for item in manifest:
-                    img = item.get("image_path")
-                    desc = item.get("description")
-                    extra = {k:v for k,v in item.items() if k not in ["image_path","description"]}
+            for item in manifest:
+                img = item.get("image_path")
+                desc = item.get("description")
+                extra = {k:v for k,v in item.items() if k not in ["image_path","description"]}
 
-                    if img in state_by_path:
-                        st = state_by_path[img]
-                        if desc:
-                            st.text = desc
-                        merge_dicts(st.enriched, extra)
-                    else:
-                    # si image absente du dossier brut mais présente dans le manifest
-                        mid = os.path.splitext(os.path.basename(img or "item"))[0]
-                        idir = os.path.join(self.processed_dir, mid)
-                        os.makedirs(idir, exist_ok=True)
+                if img in state_by_path:
+                    st = state_by_path[img]
+                    if desc:
+                        st.text = desc
+                    merge_dicts(st.enriched, extra)
+                else:
+                # si image absente du dossier brut mais présente dans le manifest
+                    mid = os.path.splitext(os.path.basename(img or "item"))[0]
+                    idir = os.path.join(self.processed_dir, mid)
+                    os.makedirs(idir, exist_ok=True)
 
-                        st = State(
-                            id=mid,
-                            item_dir=idir,
-                            image_path=img,
-                            text=desc,
-                            enriched=extra,
-                            fields_ready={}
+                    st = State(
+                        id=mid,
+                        item_dir=idir,
+                        image_path=img,
+                        text=desc,
+                        enriched=extra,
+                        fields_ready={}
                             )
-                        states.append(st)
+                    states.append(st)
 
         return states
 
@@ -111,8 +119,14 @@ class Orchestrator:
             return state.image_path
 
         temp_json = os.path.join(state.item_dir, "tmp.json")
+
+        data = {
+            "text": state.text,
+            **state.enriched
+            }
+
         with open(temp_json, "w", encoding="utf-8") as f:
-            json.dump(state.enriched, f, indent=2)
+            json.dump(data, f, indent=2)
         return temp_json
 
     # ---------------------------------------------------------
@@ -157,35 +171,73 @@ class Orchestrator:
 
     # ---------------------------------------------------------
     async def run(self):
+
+        print("\n========== ORCHESTRATOR RUN START ==========\n")
+        print(f"RAW DIR: {self.raw_dir}")
+        print(f"PROCESSED DIR: {self.processed_dir}")
+        print(f"SERVICE SPECS: {[s.name for s in self.service_specs]}\n")
+
         states = self._load_raw()
 
-        while True:
+        print("---- STATES LOADED ----")
+        for s in states:
+            print(f"State: id={s.id}")
+            print(f"  image_path = {s.image_path}")
+            print(f"  text       = {s.text}")
+            print(f"  item_dir   = {s.item_dir}")
+            print(f"  enriched   = {s.enriched}")
+            print(f"  fields_ready = {s.fields_ready}")
+        print("------------------------\n")
+        iteration = 0
+        while True: #très dangereux, mais je ne sais pas comment faire autrement pour l'instant, ptet ajouter un compteur max d'itérations
+            
+            iteration += 1
+            print(f"\n---- ITERATION {iteration} ----")
+            
             progress = False
 
             for state in states:
+                print(f"\nChecking state '{state.id}'")
                 for spec in self.service_specs:
-
+                    print(f"  -> trying service '{spec.name}'")
                     if not self._inputs_available(state, spec):
+                        print("     [skip] inputs not available")
                         continue
 
                     if self._already_filled(state, spec):
+                        print(f"     [skip] already filled: {spec.fills}")
                         continue
+                    
+                    print(f"     [RUN] executing service '{spec.name}'")
+                    print(f"     using source: {self._ensure_file(state)}")
 
                     await self._run_service(state, spec)
+
+                    print(f"     [OK] service '{spec.name}' finished")
+                    print(f"     updated enriched: {state.enriched}")
+                    print(f"     updated fields_ready: {state.fields_ready}")
                     progress = True
 
             if not progress:
+                print("\nNo more progress. Stopping loop.\n")
                 break
 
+        
+        print("\n---- FINAL ENRICHMENT ----")
         manifest = []
         for st in states:
+            print(f"Assembling enriched data for '{st.id}' ...")
             enriched = EnrichedData(
                 id=st.id,
                 source_file=st.image_path or st.id,
+                text=st.text,
                 **st.enriched
             )
             manifest.append(enriched.model_dump())
 
         out_manifest = os.path.join(self.processed_dir, "manifest.json")
+        print(f"\nWriting final manifest to: {out_manifest}")
         with open(out_manifest, "w", encoding="utf-8") as f:
             json.dump(manifest, f, indent=2)
+
+        print("\n========== ORCHESTRATOR RUN END ==========\n")

@@ -1,9 +1,10 @@
+from typing import List
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
-from routes.base_router import RaffinerieRouter
 
 from orchestrator.orchestrator import Orchestrator
+from services.service_spec import ServiceSpec
 
 # Instanciation de l'application FastAPI
 app = FastAPI(
@@ -17,49 +18,20 @@ app = FastAPI(
 class OrchestratorRequest(BaseModel):
     raw_dir: str
     processed_dir: str
-    visual_operations: list[str]
-    semantic_operations: list[str]
+    service_specs: List[ServiceSpec]
 
-@app.post("/test-orchestrator-image-only")
+@app.post("/test-orchestrator")
 async def test_orchestrator_image_only(req: OrchestratorRequest):
     orch = Orchestrator(
         raw_dir=req.raw_dir,
         processed_dir=req.processed_dir,
-        visual_operations=req.visual_operations ,
-        semantic_operations=req.semantic_operations
+        service_specs=req.service_specs  # Vous pouvez ajouter des spécifications de service si nécessaire
     )
-    await orch.run(pipeline_type="image_only")
+    await orch.run()
     return {"status": "ok", "processed_dir": req.processed_dir}
 
-@app.post("/test-orchestrator-image-text")
-async def test_orchestrator_image_text(req: OrchestratorRequest):
-    orch = Orchestrator(
-        raw_dir=req.raw_dir,
-        processed_dir=req.processed_dir,
-        visual_operations=req.visual_operations ,
-        semantic_operations=req.semantic_operations
-    )
-    await orch.run(pipeline_type="image_text")
-    return {"status": "ok", "processed_dir": req.processed_dir}
-
-@app.post("/test-orchestrator-text-only")
-async def test_orchestrator_text_only(req: OrchestratorRequest):
-    orch = Orchestrator(
-        raw_dir=req.raw_dir,
-        processed_dir=req.processed_dir,
-        visual_operations=req.visual_operations ,
-        semantic_operations=req.semantic_operations
-    )
-    await orch.run(pipeline_type="text_only")
-    return {"status": "ok", "processed_dir": req.processed_dir}
 
 # ---- FIN AJOUT ----
-
-# Création du routeur principal
-api_router = RaffinerieRouter()
-
-# Enregistrement du routeur sous le préfixe /api/v1
-app.include_router(api_router.get_router(), prefix="/api/v1")
 
 @app.get("/")
 def root():
