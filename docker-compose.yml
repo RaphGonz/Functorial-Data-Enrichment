@@ -2,7 +2,10 @@ version: "3"
 
 services:
   raffinerie:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: raffinerie
     ports:
       - "${PORT_RAFFINERIE}:${PORT_RAFFINERIE}"
     depends_on:
@@ -17,24 +20,32 @@ services:
     build:
       context: .
       dockerfile: ./services/visual_services/depth/Dockerfile
-      args:
-        INTERNAL_PORT: ${PORT_DEPTH}
+    image: raffinerie-depth
     ports:
       - "${PORT_DEPTH}:8080"
     env_file:
       - .env
     volumes:
       - ./shared:/shared
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
 
   pose:
     build:
       context: .
       dockerfile: ./services/visual_services/pose/Dockerfile
-      args:
-        INTERNAL_PORT: ${PORT_POSE} 
+    image: raffinerie-pose
     ports:
       - "${PORT_POSE}:8080"
     env_file:
       - .env
     volumes:
       - ./shared:/shared
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]

@@ -1,5 +1,5 @@
 import os
-from docker_api_server import create_service_app
+from services.docker_api_server import create_service_app
 
 def build_pose_command(req):
     # S'assurer que le dossier de sortie existe
@@ -25,7 +25,7 @@ def build_pose_command(req):
         mmpose_config,
         mmpose_checkpoint,
         "--out-file", out_image_path,
-        "--device", "cuda:0",
+        "--device", "cpu",
         # Optionnel :
         # "--device", "cuda:0",
         # "--draw-heatmap",

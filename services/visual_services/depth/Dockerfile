@@ -1,40 +1,24 @@
-# Depth-Anything-V2 Small - Dockerfile with FastAPI endpoint
+FROM raffinerie-gpu-base
 
-FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04
+WORKDIR /app/depth
 
-ENV DEBIAN_FRONTEND=noninteractive
-WORKDIR /app
+# Cloner Depth-Anything-V2
+RUN git clone https://github.com/DepthAnything/Depth-Anything-V2.git repo
 
-# --- System dependencies ---
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 python3-pip git wget \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app/depth/repo
 
-# --- Clone official repository ---
-RUN git clone https://github.com/DepthAnything/Depth-Anything-V2.git /app/repo
+# Install requirements du repo DepthAnything
+RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
-WORKDIR /app/repo
-
-# --- Install repo dependencies ---
-RUN pip install --no-cache-dir -r requirements.txt
-
-# --- Add FastAPI + Uvicorn for serving HTTP ---
-RUN pip install fastapi uvicorn
-
-# --- Download model weights (Small version) ---
+# Télécharger les poids Small
 RUN mkdir -p checkpoints && \
     wget -O checkpoints/depth_anything_v2_vits.pth \
     "https://huggingface.co/depth-anything/Depth-Anything-V2-Small/resolve/main/depth_anything_v2_vits.pth?download=true"
 
-# --- Copy the API wrapper ---
-COPY ./services/docker_api_server.py /app/repo/docker_api_server.py
-COPY ./services/mapping.py /app/repo/services/mapping.py
-COPY ./services/visual_services/depth/api_server.py /app/repo/api_server.py
+# Copier l'API spécifique depth
+# (docker_api_server.py et mapping.py sont déjà dans /app/services via l'image de base)
+COPY ./services/visual_services/depth/api_server.py /app/depth/repo/api_server.py
 
 EXPOSE 8080
-ENV PYTHONUNBUFFERED=1
 
-# --- Launch the FastAPI server ---
 CMD ["python3", "-m", "uvicorn", "api_server:app", "--host", "0.0.0.0", "--port", "8080"]
