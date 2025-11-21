@@ -8,5 +8,11 @@ service_specs = [
         name="depth",
         fills=["visual.depth_map"],
         needs_image=True
+    ),
+
+    ServiceSpec(
+        name="pose",
+        fills=["visual.pose_detection"],
+        needs_image=True
     )
 ]

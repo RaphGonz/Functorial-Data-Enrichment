@@ -7,6 +7,7 @@ services:
       - "${PORT_RAFFINERIE}:${PORT_RAFFINERIE}"
     depends_on:
       - depth
+      - pose
     env_file:
       - .env
     volumes:
@@ -20,6 +21,19 @@ services:
         INTERNAL_PORT: ${PORT_DEPTH}
     ports:
       - "${PORT_DEPTH}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+
+  pose:
+    build:
+      context: .
+      dockerfile: ./services/visual_services/pose/Dockerfile
+      args:
+        INTERNAL_PORT: ${PORT_POSE} 
+    ports:
+      - "${PORT_POSE}:8080"
     env_file:
       - .env
     volumes:

@@ -1,3 +1,5 @@
 services:
   depth:
     url: "http://${DEPTH_CONTAINER_NAME}:8080/run"
+  pose:
+    url: "http://${POSE_CONTAINER_NAME}:8080/run"

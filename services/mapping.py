@@ -19,10 +19,10 @@ SERVICE_MAPPING = {
     },
 
     "pose": {
-        "files": ["skeleton.png"],
-        "json_loader": "pose",
+        "files": ["pose.png"],
+        "json_loader": "binary_path",
         "enriched_path": ["visual", "pose_detection"],
-        "method": None
+        "method": "pose"
     },
 
     "object_detection": {

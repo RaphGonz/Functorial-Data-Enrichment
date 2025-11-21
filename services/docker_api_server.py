@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 import subprocess
@@ -25,7 +26,7 @@ def create_service_app(name, command_builder):
     class RunRequest(BaseModel):
         input_path: str
         outdir: str = "output"
-        extra: dict | None = None
+        extra: Optional[dict] = None
 
     # ---------------------------------------------------------
     # LOADER UTILITAIRES
@@ -46,14 +47,6 @@ def create_service_app(name, command_builder):
             return load_json(file_path)
         if loader_type == "binary_path":
             return file_path.replace("\\", "/")
-        if loader_type == "pose":
-            # cas spécial : pose_detection, voir mapping.py, template.json ou enriched_data.py
-            #en gros : seul enrichissement d'image où un booléen est nécessaire
-            # on vérifie si il y a un humain de detecté ou pas
-            return {
-                "skeleton_path": file_path.replace("\\", "/"),
-                "detected": True
-            }
         return None
 
     # ---------------------------------------------------------
@@ -121,11 +114,15 @@ def create_service_app(name, command_builder):
             file_path = os.path.join(outdir, files[0])
             value = load_output(loader_type, file_path)
         else:
-            value = {}
+            # fusionne proprement les fragments retournés par load_output()
+            merged = {}
             for f in files:
                 fp = os.path.join(outdir, f)
-                value[f] = load_output(loader_type, fp)
-
+                part = load_output(loader_type, fp)
+                if isinstance(part, dict):
+                    merged.update(part)
+            value = merged
+        
         # Ajouter "method" si binary_path
         if loader_type == "binary_path":
             value = {
@@ -152,7 +149,12 @@ def create_service_app(name, command_builder):
     def run_service(req: RunRequest):
         # exécute le module python/cli/dialog interne
         cmd = command_builder(req)
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
 
         if result.returncode != 0:
             return {"error": result.stderr.strip()}

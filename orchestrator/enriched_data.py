@@ -34,8 +34,9 @@ class DepthNormalMap(BaseModel):
     method: Optional[str]
 
 class PoseDetection(BaseModel):
-    skeleton_path: Optional[str]
-    detected: Optional[bool]
+    path: Optional[str]
+    confidence: Optional[float]
+    method: Optional[str]
 
 class SizeEstimation(BaseModel):
     relative_scale: Optional[float]
