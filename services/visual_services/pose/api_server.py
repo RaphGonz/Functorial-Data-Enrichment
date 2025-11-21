@@ -1,35 +1,36 @@
+# services/visual_services/pose/api_server.py
+
 import os
 from services.docker_api_server import create_service_app
 
-def build_pose_command(req):
-    # S'assurer que le dossier de sortie existe
-    os.makedirs(req.outdir, exist_ok=True)
+def build_pose_command(req) -> list[str]:
+    """
+    Construit la commande bash à exécuter pour générer une image de squelette
+    uniquement, à partir de YOLOv8 pose.
 
-    # Nom du fichier de sortie : même nom + suffixe _pose.jpg
-    img_name = os.path.basename(req.input_path)
-    stem, _ = os.path.splitext(img_name)
-    out_image_path = os.path.join(req.outdir, f"{stem}_pose.jpg")
+    - source: req.input_path
+    - sortie: req.outdir/pose_skeleton.png
+    """
+    input_path = req.input_path
+    outdir = req.outdir
 
-    # Config + checkpoint MMPose (top-down COCO HRNet)
-    mmpose_config = (
-        "configs/body_2d_keypoint/topdown_heatmap/coco/"
-        "td-hm_hrnet-w48_8xb32-210e_coco-256x192.py"
-    )
-    mmpose_checkpoint = (
-        "checkpoints/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth"
-    )
+    # Laisser docker_api_server gérer la création des dossiers si c’est déjà le cas,
+    # sinon tu peux garder cette ligne :
+    os.makedirs(outdir, exist_ok=True)
+
+    output_path = os.path.join(outdir, "pose_skeleton.png")
 
     cmd = [
-        "python3", "demo/image_demo.py",
-        req.input_path,          # image d'entrée
-        mmpose_config,
-        mmpose_checkpoint,
-        "--out-file", out_image_path,
-        "--device", "cpu",
-        # Optionnel :
-        # "--device", "cuda:0",
-        # "--draw-heatmap",
+        "python3",
+        "/app/pose/pose_skeleton_only.py",
+        "--input",
+        input_path,
+        "--output",
+        output_path,
+        "--model",
+        "yolov8n-pose.pt",
     ]
+
     return cmd
 
 app = create_service_app("pose", build_pose_command)
