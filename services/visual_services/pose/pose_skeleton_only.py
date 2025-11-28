@@ -3,9 +3,9 @@
 import argparse
 import os
 
-import numpy as np
-from ultralytics import YOLO
-from PIL import Image, ImageDraw
+import numpy as np # type: ignore
+from ultralytics import YOLO # type: ignore
+from PIL import Image, ImageDraw # type: ignore
 #non résolu mais le seront dans le conteneur docker
 
 # Connexions de squelette (indices COCO 17 points, 0-based)

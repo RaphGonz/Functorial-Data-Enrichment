@@ -29,7 +29,7 @@ SERVICE_MAPPING = {
         "files": ["objects.json"],
         "json_loader": "json",
         "enriched_path": ["visual", "object_detection"],
-        "method": None
+        "method": "detectron2"
     },
 
     "focal": {

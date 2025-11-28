@@ -11,6 +11,8 @@ services:
     depends_on:
       - depth
       - pose
+      - pointcloud
+      - object_detection
     env_file:
       - .env
     volumes:
@@ -60,6 +62,22 @@ services:
       - .env
     volumes:
       - ./shared:/shared
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  object_detection:
+    build:
+      context: .
+      dockerfile: ./services/visual_services/object_detection/Dockerfile
+    image: raffinerie-object-detection
+    ports:
+      - "${PORT_OBJECT_DETECTION}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared 
     deploy:
       resources:
         reservations:

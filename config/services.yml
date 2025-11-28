@@ -5,3 +5,5 @@ services:
     url: "http://${POSE_CONTAINER_NAME}:8080/run"
   pointcloud:
     url: "http://${POINTCLOUD_CONTAINER_NAME}:8080/run"
+  object_detection:
+    url: "http://${OBJECT_DETECTION_CONTAINER_NAME}:8080/run"
