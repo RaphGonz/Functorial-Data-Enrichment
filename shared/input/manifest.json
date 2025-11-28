@@ -1,6 +1,17 @@
 [
     {
-    "image_path" : "/shared/input/test.jpg",
-    "description" : "a man walking in a street"
+    "image_path" : "/shared/input/test1.jpg",
+    "description" : "a man walking in a street with paved sidewalk photorealistic"
+    },
+
+    {
+    "image_path" : "/shared/input/test2.jpg",
+    "description" : "une jonquille dans un champ vue de près photoréaliste"
+    },
+
+    {
+    "image_path" : "/shared/input/test3.png",
+    "description" : "Drawing of Son Goku standing straight in front the camera smiling with background"
     }
+
 ]

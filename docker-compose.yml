@@ -49,3 +49,19 @@ services:
         reservations:
           devices:
             - capabilities: ["gpu"]
+  pointcloud:
+    build:
+      context: .
+      dockerfile: ./services/visual_services/pointcloud/Dockerfile
+    image: raffinerie-pointcloud
+    ports:
+      - "${PORT_POINTCLOUD}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]

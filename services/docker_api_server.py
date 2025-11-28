@@ -201,13 +201,19 @@ def create_service_app(name, command_builder):
     def run_service(req: RunRequest):
         # exécute le module python/cli/dialog interne
         cmd = command_builder(req)
+
+        # Si le command_builder renvoie une str → on utilise un shell (pour &&, etc.)
+        # Si c'est une liste → comportement historique (pose, depth, etc.)
+        use_shell = isinstance(cmd, str)
+
         result = subprocess.run(
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            universal_newlines=True
+            universal_newlines=True,
+            shell=use_shell,
         )
-
+        
         if result.returncode != 0:
             return {"error": result.stderr.strip()}
         
