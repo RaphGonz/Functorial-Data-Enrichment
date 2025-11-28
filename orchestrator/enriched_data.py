@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Literal
+from typing import List, Optional, Dict
 
 
 # --- SEMANTIC ---------------------------------------------------------------
@@ -38,6 +38,12 @@ class PoseDetection(BaseModel):
     confidence: Optional[float]
     method: Optional[str]
 
+class Segmentation(BaseModel):
+    mask_path: Optional[str]
+    cropped_image_path: Optional[str]
+    confidence: Optional[float]
+    method: Optional[str]
+
 class SizeEstimation(BaseModel):
     relative_scale: Optional[float]
     absolute_size_m: Optional[float]
@@ -55,8 +61,9 @@ class ObjectDetection(BaseModel):
     id: str
     label: str
     bbox: List[int]
-    size_estimation: Optional[SizeEstimation]
-    material_estimation: Optional[MaterialEstimation]
+    segmentation: Optional[Segmentation] = None
+    size_estimation: Optional[SizeEstimation] = None
+    material_estimation: Optional[MaterialEstimation] = None
 
 class Focal(BaseModel):
     estimated_mm: Optional[float]

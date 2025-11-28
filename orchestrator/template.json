@@ -43,6 +43,12 @@
         "id": "obj_001",
         "label": "vaisseau",
         "bbox": [100, 200, 300, 400],
+        "segmentation": {
+          "mask_path": "path/to/mask.png",
+          "cropped_image_path": "path/to/object.png",
+          "confidence": 0.92,
+          "method": "sam2"          
+        },
         "size_estimation": {
           "relative_scale": 1.0,
           "absolute_size_m": 15.2,

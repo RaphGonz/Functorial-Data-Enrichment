@@ -20,5 +20,11 @@ service_specs = [
         name="pointcloud",
         fills=["visual.pointcloud_3d"],
         needs_image=True,
+    ),
+
+    ServiceSpec(
+        name="object_detection",
+        fills=["visual.object_detection"],
+        needs_image=True,
     )
 ]
