@@ -49,6 +49,12 @@
           "confidence": 0.92,
           "method": "sam2"          
         },
+        "mesh_3d": {
+        "path": "path/to/obj_001/mesh.obj",
+        "format": "obj",
+        "method": "one2345",
+        "confidence": null
+        },
         "size_estimation": {
           "relative_scale": 1.0,
           "absolute_size_m": 15.2,

@@ -26,5 +26,10 @@ service_specs = [
         name="object_detection",
         fills=["visual.object_detection"],
         needs_image=True,
+    ),
+    ServiceSpec(
+        name="mesh_3d",
+        fills=["visual.object_detection.mesh_3d"],
+        needs_fields=["visual.object_detection"]
     )
 ]

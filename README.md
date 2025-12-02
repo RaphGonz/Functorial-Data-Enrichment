@@ -46,6 +46,13 @@ basic appel test
         "visual.object_detection"
       ],
       "needs_image": true
+    },
+    {
+      "name": "mesh_3d",
+      "fills": [
+        "visual.object_detection.mesh_3d"
+      ],
+      "needs_fields": ["visual.object_detection"]
     }
   ]
 }

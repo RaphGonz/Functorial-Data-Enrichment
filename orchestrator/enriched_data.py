@@ -44,6 +44,11 @@ class Segmentation(BaseModel):
     confidence: Optional[float]
     method: Optional[str]
 
+class Mesh3D(BaseModel):
+    path: str                # ex: "path/to/obj_001.obj"
+    method: str              # ex: "one2345"
+    confidence: Optional[float] = None  # optionnel, peut rester None
+
 class SizeEstimation(BaseModel):
     relative_scale: Optional[float]
     absolute_size_m: Optional[float]
@@ -62,6 +67,7 @@ class ObjectDetection(BaseModel):
     label: str
     bbox: List[int]
     segmentation: Optional[Segmentation] = None
+    mesh_3d: Optional[Mesh3D] = None
     size_estimation: Optional[SizeEstimation] = None
     material_estimation: Optional[MaterialEstimation] = None
 

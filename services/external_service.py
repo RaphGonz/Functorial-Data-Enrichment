@@ -27,6 +27,6 @@ class ExternalService(BaseService):
         }
 
         async with aiohttp.ClientSession() as session:
-            async with session.post(self.url, json=payload, timeout=60) as r:
+            async with session.post(self.url, json=payload, timeout=300) as r:
                 r.raise_for_status()
                 return await r.json()

@@ -32,6 +32,14 @@ SERVICE_MAPPING = {
         "method": "detectron2"
     },
 
+    "mesh_3d": {
+        "files": ["objects.json"],
+        "json_loader": "json",
+        # On réécrit complètement visual.object_detection
+        "enriched_path": ["visual", "object_detection"],
+        "method": "one2345",
+    },
+
     "focal": {
         "files": ["focal.json"],
         "json_loader": "json",
