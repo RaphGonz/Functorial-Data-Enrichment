@@ -4,9 +4,9 @@ from typing import List, Optional, Dict
 
 # --- SEMANTIC ---------------------------------------------------------------
 
-class Translation(BaseModel):
-    available: Optional[bool]
-    languages: Optional[List[str]]
+class TranslationItem(BaseModel):
+    language: str          # ex: "en", "fr", "de"
+    text: str              # texte traduit dans cette langue
 
 class KeyEntities(BaseModel):
     persons: Optional[List[str]]
@@ -14,8 +14,9 @@ class KeyEntities(BaseModel):
     locations: Optional[List[str]]
 
 class Semantic(BaseModel):
+    description: Optional[str] = None
     language: Optional[str] = None
-    translation: Optional[Translation] = None
+    translations: Optional[List[TranslationItem]] = None
     summary: Optional[str] = None
     topic_classification: Optional[List[str]] = None
     key_entities: Optional[KeyEntities] = None
@@ -91,6 +92,7 @@ class Light(BaseModel):
     method: str
 
 class Visual(BaseModel):
+    base_image: Optional[str] = None
     depth_map: Optional[DepthNormalMap] = None
     normal_map: Optional[DepthNormalMap] = None
     pose_detection: Optional[PoseDetection] = None

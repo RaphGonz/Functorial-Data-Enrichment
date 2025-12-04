@@ -4,6 +4,13 @@ SERVICE_MAPPING = {
     # -----------------------------
     # VISUAL
     # -----------------------------
+    "base_image": {
+        "files": ["base.png"],
+        "json_loader": "binary_path",
+        "enriched_path": ["visual", "base_image"],
+        "method": "text2img"
+    },
+
     "depth": {
         "files": ["map.png"],
         "json_loader": "binary_path",
@@ -78,6 +85,13 @@ SERVICE_MAPPING = {
     # -----------------------------
     # SEMANTIC
     # -----------------------------
+    "base_text": {
+        "files": ["base_text.txt"],
+        "json_loader": "text",
+        "enriched_path": ["semantic", "base_text"],
+        "method": "caption"
+    },
+
     "language": {
         "files": ["lang.txt"],
         "json_loader": "text",
@@ -85,10 +99,10 @@ SERVICE_MAPPING = {
         "method": None
     },
 
-    "translation": {
+    "translations": {
         "files": ["translation.json"],
         "json_loader": "json",
-        "enriched_path": ["semantic", "translation"],
+        "enriched_path": ["semantic", "translations"],
         "method": None
     },
 

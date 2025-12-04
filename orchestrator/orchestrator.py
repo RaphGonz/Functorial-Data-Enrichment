@@ -55,14 +55,16 @@ class Orchestrator:
                 item_dir = os.path.join(self.processed_dir, name)
                 os.makedirs(item_dir, exist_ok=True)
                 states.append(
-                    State(
-                        id=name,
-                        item_dir=item_dir,
-                        image_path=fpath,
-                        enriched={},
-                        fields_ready={}
+                        State(
+                            id=name,
+                            item_dir=item_dir,
+                            image_path=fpath,
+                            enriched={},
+                            fields_ready={
+                                "visual.base_image": True
+                            }
+                        )
                     )
-                )
             elif ext.lower() in [".txt"]:
                 with open(fpath, "r", encoding="utf-8") as f:
                     txt = f.read().strip()
@@ -74,7 +76,7 @@ class Orchestrator:
                         item_dir=item_dir,
                         text=txt,
                         enriched={},
-                        fields_ready={"semantic.summary": False}
+                        fields_ready={"semantic.base_text": True}
                     )
                 )
         if manifest_path:
@@ -88,16 +90,18 @@ class Orchestrator:
             for item in manifest:
                 img = item.get("image_path")
                 desc = item.get("description")
-                extra = {k:v for k,v in item.items() if k not in ["image_path","description"]}
+                extra = {k: v for k, v in item.items() if k not in ["image_path", "description"]}
 
+                # ----------------------------------------
+                # CAS 1 : l'image existe déjà dans state_by_path
+                # ----------------------------------------
                 if img in state_by_path:
                     st = state_by_path[img]
-                    if desc:
-                        st.text = desc
-                    merge_dicts(st.enriched, extra)
                 else:
-                # si image absente du dossier brut mais présente dans le manifest
-                    mid = os.path.splitext(os.path.basename(img or "item"))[0]
+                # ----------------------------------------
+                # CAS 2 : on n'a pas encore croisé l'image → créer un State minimal
+                # ----------------------------------------
+                    mid = os.path.splitext(os.path.basename(img))[0]
                     idir = os.path.join(self.processed_dir, mid)
                     os.makedirs(idir, exist_ok=True)
 
@@ -105,11 +109,22 @@ class Orchestrator:
                         id=mid,
                         item_dir=idir,
                         image_path=img,
-                        text=desc,
-                        enriched=extra,
+                        text=None,
+                        enriched={},
                         fields_ready={}
-                            )
+                    )
                     states.append(st)
+                    state_by_path[img] = st
+
+                # ----------------------------------------
+                # Mise à jour des champs imposés par le manifest
+                # ----------------------------------------
+                st.text = desc
+                st.fields_ready["semantic.base_texte"] = True
+                st.fields_ready["visual.base_image"] = True
+
+                merge_dicts(st.enriched, extra)
+                
 
         return states
 
