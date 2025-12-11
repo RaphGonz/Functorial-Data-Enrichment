@@ -9,3 +9,5 @@ services:
     url: "http://${OBJECT_DETECTION_CONTAINER_NAME}:8080/run"
   mesh_3d:
     url: "http://${MESH_3D_CONTAINER_NAME}:8080/run"
+  image_generation:
+    url: "http://${IMAGE_GENERATION_CONTAINER_NAME}:8080/run"

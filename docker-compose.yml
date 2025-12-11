@@ -1,10 +1,5 @@
-version: "3"
-
-services:
+services: 
   raffinerie:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
     image: raffinerie
     ports:
       - "${PORT_RAFFINERIE}:${PORT_RAFFINERIE}"
@@ -14,15 +9,13 @@ services:
       - pointcloud
       - object_detection
       - mesh_3d
+      - image_generation
     env_file:
       - .env
     volumes:
       - ./shared:/shared
 
   depth:
-    build:
-      context: .
-      dockerfile: ./services/visual_services/depth/Dockerfile
     image: raffinerie-depth
     ports:
       - "${PORT_DEPTH}:8080"
@@ -37,9 +30,6 @@ services:
             - capabilities: ["gpu"]
 
   pose:
-    build:
-      context: .
-      dockerfile: ./services/visual_services/pose/Dockerfile
     image: raffinerie-pose
     ports:
       - "${PORT_POSE}:8080"
@@ -52,10 +42,8 @@ services:
         reservations:
           devices:
             - capabilities: ["gpu"]
+
   pointcloud:
-    build:
-      context: .
-      dockerfile: ./services/visual_services/pointcloud/Dockerfile
     image: raffinerie-pointcloud
     ports:
       - "${PORT_POINTCLOUD}:8080"
@@ -68,10 +56,8 @@ services:
         reservations:
           devices:
             - capabilities: ["gpu"]
+
   object_detection:
-    build:
-      context: .
-      dockerfile: ./services/visual_services/object_detection/Dockerfile
     image: raffinerie-object-detection
     ports:
       - "${PORT_OBJECT_DETECTION}:8080"
@@ -84,11 +70,10 @@ services:
         reservations:
           devices:
             - capabilities: ["gpu"]
+
   mesh_3d:
-    build:
-      context: .
-      dockerfile: ./services/visual_services/mesh_3d/Dockerfile
-    image: raffinerie-mesh-3d
+    image:
+      raffinerie-mesh-3d
     ports:
       - "${PORT_MESH_3D}:8080"
     env_file:
@@ -100,3 +85,17 @@ services:
         reservations:
           devices:
             - capabilities: ["gpu"]
+  image_generation:
+    image: raffinerie-image-generation
+    ports:
+      - "${PORT_IMAGE_GENERATION}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+      

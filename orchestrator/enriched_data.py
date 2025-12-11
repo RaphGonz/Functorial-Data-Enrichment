@@ -14,7 +14,7 @@ class KeyEntities(BaseModel):
     locations: Optional[List[str]]
 
 class Semantic(BaseModel):
-    description: Optional[str] = None
+    base_text: Optional[str] = None
     language: Optional[str] = None
     translations: Optional[List[TranslationItem]] = None
     summary: Optional[str] = None

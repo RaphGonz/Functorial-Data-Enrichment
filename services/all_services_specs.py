@@ -31,5 +31,10 @@ service_specs = [
         name="mesh_3d",
         fills=["visual.object_detection.mesh_3d"],
         needs_fields=["visual.object_detection"]
-    )
+    ),
+    ServiceSpec(
+        name="image_generation",
+        fills=["visual.base_image"],
+        needs_fields=["semantic.base_text"] #ça sera semantic.summary après mais bon on s'en fout pour l'instant
+    ),
 ]

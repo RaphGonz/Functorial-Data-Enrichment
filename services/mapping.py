@@ -8,7 +8,7 @@ SERVICE_MAPPING = {
         "files": ["base.png"],
         "json_loader": "binary_path",
         "enriched_path": ["visual", "base_image"],
-        "method": "text2img"
+        "method": "flux"
     },
 
     "depth": {
@@ -44,7 +44,7 @@ SERVICE_MAPPING = {
         "json_loader": "json",
         # On réécrit complètement visual.object_detection
         "enriched_path": ["visual", "object_detection"],
-        "method": "one2345",
+        "method": "tripoSR",
     },
 
     "focal": {
