@@ -48,17 +48,13 @@ WORKDIR /app
 # ------------------------------
 # SD-1.5-PRUNED single-file
 # ------------------------------
-RUN mkdir -p /models/sd15 && \
-    wget -q https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt \
-        -O /models/sd15/v1-5-pruned.ckpt
+RUN mkdir -p /models/sd15
         
 # -------------------------------------------------------------
 # SwinIR – clone repo + pretrained model
 # -------------------------------------------------------------
 RUN git clone https://github.com/JingyunLiang/SwinIR.git /app/SwinIR && \
-    mkdir -p /models/swinir && \
-    wget -O /models/swinir/real_x4.pth \
-    https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth
+    mkdir -p /models/swinir
 
 
 # -------------------------------------------------------------

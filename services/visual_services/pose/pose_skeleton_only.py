@@ -54,7 +54,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=str, required=True, help="Chemin de l'image d'entrée")
     parser.add_argument("--output", type=str, required=True, help="Chemin de l'image de sortie (squelettes)")
-    parser.add_argument("--model", type=str, default="yolov8n-pose.pt", help="Chemin ou nom du modèle YOLOv8 pose")
+    parser.add_argument("--model", type=str, default="/models/yolov8n-pose.pt", help="Chemin ou nom du modèle YOLOv8 pose")
     args = parser.parse_args()
 
     input_path = args.input

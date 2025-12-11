@@ -10,10 +10,8 @@ WORKDIR /app/depth/repo
 # Install requirements du repo DepthAnything
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
-# Télécharger les poids Small
-RUN mkdir -p checkpoints && \
-    wget -O checkpoints/depth_anything_v2_vits.pth \
-    "https://huggingface.co/depth-anything/Depth-Anything-V2-Small/resolve/main/depth_anything_v2_vits.pth?download=true"
+#fais un directory checkpoints pour y mettre le model
+RUN mkdir -p checkpoints
 
 # Copier l'API spécifique depth
 # (docker_api_server.py et mapping.py sont déjà dans /app/services via l'image de base)

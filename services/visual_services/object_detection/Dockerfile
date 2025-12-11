@@ -30,14 +30,8 @@ RUN pip install --no-cache-dir fastapi uvicorn
 # Forcer NumPy 1.x pour être compatible avec les modules compilés
 RUN pip install --no-cache-dir "numpy<2" --force-reinstall
 
-# Pré-télécharger le checkpoint Mask R-CNN et le copier dans /app/models
-RUN python -c "from detectron2 import model_zoo; from detectron2.utils.file_io import PathManager; import os, shutil; \
-url = model_zoo.get_checkpoint_url('COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml'); \
-local_path = PathManager.get_local_path(url); \
-os.makedirs('/app/models', exist_ok=True); \
-dst = '/app/models/mask_rcnn_R_50_FPN_3x.pkl'; \
-shutil.copy2(local_path, dst); \
-print('Saved weights to', dst)"
+#faire un dir pour le model
+RUN mkdir -p /app/models
 
 # Code commun Raffinerie (serveur FastAPI générique)
 RUN mkdir -p /app/services

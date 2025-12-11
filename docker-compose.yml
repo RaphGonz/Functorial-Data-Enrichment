@@ -23,6 +23,7 @@ services:
       - .env
     volumes:
       - ./shared:/shared
+      - ./models/depth:/app/checkpoints
     deploy:
       resources:
         reservations:
@@ -37,6 +38,7 @@ services:
       - .env
     volumes:
       - ./shared:/shared
+       - ./models/pose:/models/pose
     deploy:
       resources:
         reservations:
@@ -51,6 +53,7 @@ services:
       - .env
     volumes:
       - ./shared:/shared
+      - ./models/pointcloud:/root/.cache/huggingface/hub/models--lpiccinelli--unik3d-vitl
     deploy:
       resources:
         reservations:
@@ -64,7 +67,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./shared:/shared 
+      - ./shared:/shared
+      - ./models/object_detection:/app/models
     deploy:
       resources:
         reservations:
@@ -80,6 +84,7 @@ services:
       - .env
     volumes:
       - ./shared:/shared
+      - ./models/mesh_3d:/app/local_triposr_model/
     deploy:
       resources:
         reservations:
@@ -93,6 +98,7 @@ services:
       - .env
     volumes:
       - ./shared:/shared
+      - ./models/image_generation:/app/models/
     deploy:
       resources:
         reservations:

@@ -60,13 +60,11 @@ RUN pip uninstall -y torchmcubes || true && \
 # -------------------------------------------------------------
 RUN mkdir -p /app/local_triposr_model
 
-# config.yaml
+# config.yaml (léger, on peut telécharger directement)
 RUN wget -O /app/local_triposr_model/config.yaml \
     https://huggingface.co/stabilityai/TripoSR/resolve/main/config.yaml
 
-# model.ckpt
-RUN wget -O /app/local_triposr_model/model.ckpt \
-    https://huggingface.co/stabilityai/TripoSR/resolve/main/model.ckpt
+
 
 # -------------------------------------------------------------
 # 8. FastAPI + Uvicorn + pipeline services

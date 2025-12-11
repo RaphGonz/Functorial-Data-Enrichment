@@ -25,6 +25,27 @@ Pour lancer l'appli
 
 basic appel test
 
+Poids à télécharger
+depth : https://huggingface.co/depth-anything/Depth-Anything-V2-Small/resolve/main/depth_anything_v2_vits.pth?download=true
+object detection : https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
+
+et le renommer mask_rcnn_R_50_FPN_3x.pkl
+
+pointcloud : https://huggingface.co/lpiccinelli/unik3d-vitl/resolve/main/config.json
+              https://huggingface.co/lpiccinelli/unik3d-vitl/resolve/main/model.safetensors
+              https://huggingface.co/lpiccinelli/unik3d-vitl/resolve/main/pytorch_model.bin
+et tout mettre dans le dossier models (c'est très relou comme fonctionnement)
+
+image_generation : https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt à mettre dans models/sd-15
+                    https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth
+à renommer real_4x.pth et mettre dans models/swinIR
+
+pose : https://github.com/ultralytics/assets/releases/download/v8.1.0/yolov8n-pose.pt
+
+mesh_3d : https://huggingface.co/stabilityai/TripoSR/resolve/main/model.ckpt
+
+
+
 {
   "raw_dir": "/shared/input",
   "processed_dir": "/shared/output",

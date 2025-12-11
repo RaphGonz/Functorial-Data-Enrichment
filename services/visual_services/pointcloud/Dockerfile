@@ -22,13 +22,6 @@ RUN python3 -m pip install --no-cache-dir -r requirements.txt
 #pour l'étape suivante
 ENV PYTHONPATH="/app/pointcloud:${PYTHONPATH}"
 
-# Pré-télécharger le petit modèle ViT-S (unik3d-vits) dans le cache local HF
-# Après ça, plus besoin d'Internet au runtime.
-# Pré-téléchargement du petit modèle ViT-S dans le cache HF
-RUN python3 -c "from unik3d.models import UniK3D; UniK3D.from_pretrained('lpiccinelli/unik3d-vits')"
-# forcer le mode offline HuggingFace au runtime
-ENV HF_HUB_OFFLINE=1
-
 COPY ./services/visual_services/pointcloud/api_server.py /app/pointcloud/api_server.py
 
 EXPOSE 8080
