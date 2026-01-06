@@ -56,17 +56,6 @@ RUN pip uninstall -y torchmcubes || true && \
         git+https://github.com/tatsy/torchmcubes.git
 
 # -------------------------------------------------------------
-# 7. Download pretrained model files directly from HuggingFace
-# -------------------------------------------------------------
-RUN mkdir -p /app/local_triposr_model
-
-# config.yaml (léger, on peut telécharger directement)
-RUN wget -O /app/local_triposr_model/config.yaml \
-    https://huggingface.co/stabilityai/TripoSR/resolve/main/config.yaml
-
-
-
-# -------------------------------------------------------------
 # 8. FastAPI + Uvicorn + pipeline services
 # -------------------------------------------------------------
 RUN python3 -m pip install --no-cache-dir fastapi "uvicorn[standard]"

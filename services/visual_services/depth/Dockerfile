@@ -18,5 +18,5 @@ RUN mkdir -p checkpoints
 COPY ./services/visual_services/depth/api_server.py /app/depth/repo/api_server.py
 
 EXPOSE 8080
-
+WORKDIR /app/depth/repo
 CMD ["python3", "-m", "uvicorn", "api_server:app", "--host", "0.0.0.0", "--port", "8080"]

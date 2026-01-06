@@ -1,3 +1,4 @@
+import sys
 from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -208,10 +209,10 @@ def create_service_app(name, command_builder):
 
         result = subprocess.run(
             cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True,
+            stdout=sys.stdout,
+            stderr=sys.stderr,
             shell=use_shell,
+            check=False,
         )
         
         if result.returncode != 0:

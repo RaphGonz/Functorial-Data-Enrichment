@@ -90,7 +90,7 @@ mesh_3d : https://huggingface.co/stabilityai/TripoSR/resolve/main/model.ckpt
       "fills": [
         "visual.base_image"
       ],
-      "needs_fields": ["visual.base_text"]
+      "needs_fields": ["semantic.base_text"]
     }
   ]
 }

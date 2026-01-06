@@ -117,6 +117,8 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    
+
     # outdir = /shared/output/<id>/mesh_3d (fourni par l'orchestrateur)
     outdir = os.path.normpath(args.outdir)
     os.makedirs(outdir, exist_ok=True)

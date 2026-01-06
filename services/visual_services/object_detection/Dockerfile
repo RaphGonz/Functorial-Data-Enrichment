@@ -30,9 +30,6 @@ RUN pip install --no-cache-dir fastapi uvicorn
 # Forcer NumPy 1.x pour être compatible avec les modules compilés
 RUN pip install --no-cache-dir "numpy<2" --force-reinstall
 
-#faire un dir pour le model
-RUN mkdir -p /app/models
-
 # Code commun Raffinerie (serveur FastAPI générique)
 RUN mkdir -p /app/services
 COPY ./services/docker_api_server.py /app/services/docker_api_server.py

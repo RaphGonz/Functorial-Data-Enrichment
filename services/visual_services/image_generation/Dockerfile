@@ -15,20 +15,37 @@ RUN apt update && apt install -y \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
+# -------------------------------------------------------------
+# Pip upgrade (CRITICAL)
+# -------------------------------------------------------------
 RUN pip install --upgrade pip
 
 # -------------------------------------------------------------
-# Torch 2.2.0 + cu118 (compatible Flux + CUDA 11.8)
+# Global pip constraints (CRITICAL)
+# -------------------------------------------------------------
+RUN echo "numpy<2" > /tmp/constraints.txt
+
+# -------------------------------------------------------------
+# NumPy pinned FIRST (CRITICAL)
 # -------------------------------------------------------------
 RUN pip install --no-cache-dir \
-    torch==2.2.0+cu118 \
-    torchvision==0.17.0+cu118 \
+    --constraint /tmp/constraints.txt \
+    "numpy<2"
+
+# -------------------------------------------------------------
+# Torch 2.1.2 + cu118 (COMPATIBLE basicsr / Real-ESRGAN)
+# -------------------------------------------------------------
+RUN pip install --no-cache-dir \
+    --constraint /tmp/constraints.txt \
+    torch==2.1.2+cu118 \
+    torchvision==0.16.2+cu118 \
     --index-url https://download.pytorch.org/whl/cu118
 
 # -------------------------------------------------------------
-# Diffusers + HF (open models compatible)
+# Diffusers + HF
 # -------------------------------------------------------------
 RUN pip install --no-cache-dir \
+    --constraint /tmp/constraints.txt \
     diffusers==0.30.2 \
     "transformers<4.37" \
     accelerate \
@@ -40,22 +57,20 @@ RUN pip install --no-cache-dir \
     timm \
     fastapi \
     "uvicorn[standard]"
-    
-RUN pip install --no-cache-dir "numpy<2" --force-reinstall
 
 WORKDIR /app
 
 # ------------------------------
 # SD-1.5-PRUNED single-file
 # ------------------------------
-RUN mkdir -p /models/sd15
-        
-# -------------------------------------------------------------
-# SwinIR – clone repo + pretrained model
-# -------------------------------------------------------------
-RUN git clone https://github.com/JingyunLiang/SwinIR.git /app/SwinIR && \
-    mkdir -p /models/swinir
+RUN mkdir -p /app/models/sd15
 
+# -------------------------------------------------------------
+# Real-ESRGAN (INSTALL AS PACKAGE)
+# -------------------------------------------------------------
+RUN pip install --no-cache-dir \
+    --constraint /tmp/constraints.txt \
+    realesrgan
 
 # -------------------------------------------------------------
 # Copy service code
@@ -68,6 +83,9 @@ COPY ./services/mapping.py          /app/services/mapping.py
 COPY ./services/visual_services/image_generation/run_image.py  /app/run_image.py
 COPY ./services/visual_services/image_generation/api_server.py /app/api_server.py
 
+# -------------------------------------------------------------
+# PYTHONPATH (FIXED)
+# -------------------------------------------------------------
 ENV PYTHONPATH=/app
 
 # -------------------------------------------------------------

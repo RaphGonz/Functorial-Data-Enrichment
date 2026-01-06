@@ -60,6 +60,9 @@ def main():
     input_path = args.input
     output_path = args.output
 
+    print("EXISTS:", os.path.exists(input_path))
+    print("LS /shared/input:", os.listdir("/shared/input"))
+
     outdir = os.path.dirname(output_path)
     if outdir:
         os.makedirs(outdir, exist_ok=True)

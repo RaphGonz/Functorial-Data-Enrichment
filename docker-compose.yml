@@ -23,7 +23,7 @@ services:
       - .env
     volumes:
       - ./shared:/shared
-      - ./models/depth:/app/checkpoints
+      - ./models/depth:/app/depth/repo/checkpoints
     deploy:
       resources:
         reservations:
@@ -38,7 +38,7 @@ services:
       - .env
     volumes:
       - ./shared:/shared
-       - ./models/pose:/models/pose
+      - ./models/pose:/models/pose
     deploy:
       resources:
         reservations:
@@ -53,7 +53,7 @@ services:
       - .env
     volumes:
       - ./shared:/shared
-      - ./models/pointcloud:/root/.cache/huggingface/hub/models--lpiccinelli--unik3d-vitl
+      - ./models/pointcloud/hf_cache/hub/models--lpiccinelli--unik3d-vitl:/root/.cache/huggingface/hub/models--lpiccinelli--unik3d-vitl
     deploy:
       resources:
         reservations:

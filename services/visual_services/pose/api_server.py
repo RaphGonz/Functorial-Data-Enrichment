@@ -28,7 +28,7 @@ def build_pose_command(req) -> list[str]:
         "--output",
         output_path,
         "--model",
-        "yolov8n-pose.pt",
+        "/models/pose/yolov8n-pose.pt"
     ]
 
     return cmd
