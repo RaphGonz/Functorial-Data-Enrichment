@@ -104,4 +104,174 @@ services:
         reservations:
           devices:
             - capabilities: ["gpu"]
-      
+  
+  description:
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/description/Dockerfile
+    ports:
+      - "${PORT_DESCRIPTION}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  emotions:
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/emotions/Dockerfile
+    ports:
+      - "${PORT_EMOTIONS}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  key_entities:
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/key_entities/Dockerfile
+    ports:
+      - "${PORT_KEY_ENTITIES}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  keywords:
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/keywords/Dockerfile
+    ports:
+      - "${PORT_KEYWORDS}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  language:
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/language/Dockerfile
+    ports:
+      - "${PORT_LANGUAGE}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  narrative-type:
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/narrative_type/Dockerfile
+    ports:
+      - "${PORT_NARRATIVE_TYPE}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  style: 
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/style/Dockerfile
+    ports:
+      - "${PORT_STYLE}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  summary: 
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/summary/Dockerfile
+    ports:
+      - "${PORT_SUMMARY}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  topic_classification: 
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/topic_classification/Dockerfile
+    ports:
+      - "${PORT_TOPIC_CLASSIFICATION}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+  translations:  
+    build:
+      context: .
+      dockerfile: ./services/semantic_services/translations/Dockerfile
+    ports:
+      - "${PORT_TRANSLATIONS}:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]

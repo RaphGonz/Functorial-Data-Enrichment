@@ -93,14 +93,14 @@ SERVICE_MAPPING = {
     },
 
     "language": {
-        "files": ["lang.txt"],
+        "files": ["language.txt"],
         "json_loader": "text",
         "enriched_path": ["semantic", "language"],
         "method": None
     },
 
     "translations": {
-        "files": ["translation.json"],
+        "files": ["translations.json"],
         "json_loader": "json",
         "enriched_path": ["semantic", "translations"],
         "method": None
@@ -131,13 +131,6 @@ SERVICE_MAPPING = {
         "files": ["emotions.json"],
         "json_loader": "json",
         "enriched_path": ["semantic", "emotions"],
-        "method": None
-    },
-
-    "sentiment_score": {
-        "files": ["sentiment.json"],
-        "json_loader": "json",
-        "enriched_path": ["semantic", "sentiment_score"],
         "method": None
     },
 

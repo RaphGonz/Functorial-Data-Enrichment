@@ -11,3 +11,24 @@ services:
     url: "http://${MESH_3D_CONTAINER_NAME}:8080/run"
   image_generation:
     url: "http://${IMAGE_GENERATION_CONTAINER_NAME}:8080/run"
+  description:
+    url: "http://${DESCRIPTION_CONTAINER_NAME}:8080/run"
+  emotions:
+    url: "http://${EMOTIONS_CONTAINER_NAME}:8080/run"
+  key_entities:
+    url: "http://${KEY_ENTITIES_CONTAINER_NAME}:8080/run"
+  keywords:
+    url: "http://${KEYWORDS_CONTAINER_NAME}:8080/run"
+  language:
+    url: "http://${LANGUAGE_CONTAINER_NAME}:8080/run"
+  narrative_type:
+    url: "http://${NARRATIVE_TYPE_CONTAINER_NAME}:8080/run"
+  style:
+    url: "http://${STYLE_CONTAINER_NAME}:8080/run"
+  summary:
+    url: "http://${SUMMARY_CONTAINER_NAME}:8080/run"
+  topic_classification:
+    url: "http://${TOPIC_CLASSIFICATION_CONTAINER_NAME}:8080/run"
+  translations:
+    url: "http://${TRANSLATIONS_CONTAINER_NAME}:8080/run"
+  

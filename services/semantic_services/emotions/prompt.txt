@@ -1,0 +1,11 @@
+Extract the emotions present in the text.
+
+Rules:
+- One word per emotion
+- Lowercase
+- No duplicates
+
+Return only the emotions.
+
+Text:
+{{TEXT}}
