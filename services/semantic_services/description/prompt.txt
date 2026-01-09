@@ -1,0 +1,13 @@
+Describe the image in a single dense paragraph.
+
+Include as much detail as possible.
+
+Guidelines:
+- Describe everything that can reasonably be inferred from the image itself.
+- Include: main subjects, setting, actions, spatial relationships, notable objects, colors, materials, textures, shapes, lighting, and any visible text.
+- Include photographic characteristics if they are visually inferable: apparent lens type (wide/telephoto), depth of field, focus, point of view, framing, perspective.
+- Include stylistic qualities: visual style, medium (photo, illustration, 3D render, painting), rendering style, color grading, and overall aesthetic.
+- Emotional or atmospheric language is allowed if it clearly derives from visual cues (lighting, composition, expressions, posture).
+- Avoid speculation about facts not supported by the image (identities, causes, events outside the frame).
+
+Output a single, dense paragraph.

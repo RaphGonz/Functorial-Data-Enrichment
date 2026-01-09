@@ -1,0 +1,14 @@
+Extract high-signal keywords from the text.
+
+Rules:
+- Output only keywords, not sentences.
+- Each keyword must be a single word (1 token). No multi-word phrases.
+- Prefer nouns and adjectives over verbs.
+- Exclude named entities (people, places, organizations) unless they are the core topic.
+- Exclude stopwords, generic fillers, and function words.
+- Keep the text’s language; do not translate.
+- Normalize to lowercase unless the keyword is an unavoidable proper noun/acronym.
+- No duplicates. No near-duplicates (merge variants).
+
+Text:
+{{TEXT}}

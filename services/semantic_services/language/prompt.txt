@@ -1,0 +1,4 @@
+Identify the language used in the text. Return only the language name (e.g., English, French, Japanese). No extra words.
+
+Text:
+{{TEXT}}

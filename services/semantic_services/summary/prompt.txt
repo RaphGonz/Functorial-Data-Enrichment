@@ -1,0 +1,12 @@
+Summarize the text in very simple language so it can be used to generate an image.
+
+Rules:
+- Use short sentences.
+- Use concrete words.
+- Keep only what can be shown visually: characters/subjects, setting, key objects, key actions, mood/lighting.
+- Remove abstract ideas, analysis, opinions, and background details that cannot be seen.
+- If the text is not a story, describe the scene it implies.
+- Do not add new details.
+
+Text:
+{{TEXT}}

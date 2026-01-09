@@ -1,0 +1,14 @@
+Extract the key entities from the text.
+
+Rules:
+- Return only items that are central to the text (not minor details).
+- Each item must be either:
+  - a single word, or
+  - a very short noun phrase (max 4 words).
+- Always concrete, referential phrases for entities (e.g., "the green cat", "blue dog", "holy saints").
+- Keep items in the text’s language; do not translate.
+- No duplicates. No near-duplicates (merge variants).
+- No verbs. No full sentences. No commentary.
+
+Text:
+{{TEXT}}

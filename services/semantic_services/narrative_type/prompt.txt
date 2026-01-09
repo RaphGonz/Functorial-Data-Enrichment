@@ -1,0 +1,11 @@
+Classify the narrative type of the text.
+
+Determine:
+- Person: first / second / third / mixed
+- Narrator stance (if applicable): limited / omniscient / objective
+- Mode: story (events over time) / description / exposition / dialogue / instruction / argument / mixed
+
+Return only concise labels for what applies. No quotes, no explanation, no commentary.
+
+Text:
+{{TEXT}}

@@ -1,0 +1,4 @@
+Classify the topic of the text. Return one very short topic sentence (3–8 words). No explanation.
+
+Text:
+{{TEXT}}

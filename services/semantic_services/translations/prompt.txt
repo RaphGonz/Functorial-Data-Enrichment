@@ -1,0 +1,11 @@
+Translate the text into {{LANGUAGE}}.
+
+Rules:
+- Preserve meaning exactly.
+- Keep names as-is.
+- Keep numbers, units, and formatting consistent.
+- Do not add explanations.
+- Output only the translated text.
+
+Text:
+{{TEXT}}

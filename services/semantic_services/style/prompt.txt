@@ -1,0 +1,9 @@
+Classify the writing style of the text.
+
+Pick the best-fitting style label(s) such as:
+academic, technical, journalistic, conversational, business, legal, marketing, instructional, novelistic, poetic, dramatic, satire, diary, social-media, informal, formal.
+
+Return only the style label(s), concise. No explanation, no commentary.
+
+Text:
+{{TEXT}}
