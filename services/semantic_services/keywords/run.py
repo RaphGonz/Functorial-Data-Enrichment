@@ -1,4 +1,4 @@
-# services/semantic_services/emotions/run.py
+# services/semantic_services/description/run.py
 
 import argparse
 import json
@@ -8,8 +8,8 @@ from ollama import chat
 from pydantic import BaseModel
 
 
-class EmotionOutput(BaseModel):
-    emotions: list[str]
+class KeywordsOutput(BaseModel):
+    keywords: list[str]
 
 
 PROMPT_PATH = Path(__file__).parent / "prompt.txt"
@@ -32,20 +32,20 @@ def main(input_path: str, output_dir: str) -> None:
                 "content": prompt.replace("{{TEXT}}", text),
             }
         ],
-        format=EmotionOutput.model_json_schema(),
+        format=KeywordsOutput.model_json_schema(),
     )
 
-    emotions = EmotionOutput.model_validate_json(response.message.content)
+    keywords = KeywordsOutput.model_validate_json(response.message.content)
 
-    out_file = output_dir / "emotions.json"
+    out_file = output_dir / "keywords.json"
     out_file.write_text(
-        emotions.model_dump_json(indent=2),
+        keywords.model_dump_json(indent=2),
         encoding="utf-8",
     )
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Emotions detected")
+    parser = argparse.ArgumentParser(description="List of key words")
     parser.add_argument("--input", required=True, help="Path to input text file")
     parser.add_argument("--output", required=True, help="Output directory")
 
